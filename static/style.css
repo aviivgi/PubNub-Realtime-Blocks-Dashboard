@@ -1,0 +1,35 @@
+/* Apps - Color Assignment */
+.group-424079,
+.group-424115 {
+    background-color: #263238
+}
+.group-420058,
+.group-420083 {
+    background-color: #4f5b62
+}
+body, table, button {
+    font-size: small;
+}
+th, td {
+    padding: 5px 12px;
+}
+
+/* Bootstrap 4 - custom CSS */
+#mainContainer.container-fluid {
+    height: calc(100vh - 100px);
+}
+.sticky-top, 
+.sticky-footer {
+    max-height: 35px;
+}
+.bg-danger {
+    background-color: #d02129!important;
+}
+.logo {
+    margin-top: 30vh;
+}
+.list-group-item.active {
+    color: #fff;
+    background-color: #d02129;
+    border-color: #d02129;
+}
