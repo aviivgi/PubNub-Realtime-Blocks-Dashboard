@@ -133,10 +133,14 @@ export default {
    */
   watch: {
     accounts: function () {
-      console.log('==> ACCOUNTS', this.accounts)
+      if (config.mode.debug) {
+        console.log('==> ACCOUNTS', this.accounts)
+      }
     },
     tblDataBlocks: function () {
-      console.log('--> tblDataBlocks')
+      if (config.mode.debug) {
+        console.log('--> tblDataBlocks')
+      }
     }
   },
   /**
@@ -249,9 +253,7 @@ export default {
      */
     printDebug (message) {
       // this.$log.debug('==> STATUS: EVENT LISTNER - printDebug', message)
-      console.log('-->> this.logs (3)', this.logs)
       this.logs = this.prependArray(message, this.logs)
-      console.log('-->> this.logs (4)', this.logs)
     },
     /**
      * printMessage
@@ -303,9 +305,13 @@ export default {
       }
 
       // Add to logs
-      console.log('-->> this.logs (4)', this.logs)
+      if (config.mode.debug) {
+        console.log('-->> this.logs (4)', this.logs)
+      }
       this.logs = this.prependArray(payload, this.logs)
-      console.log('-->> this.logs (5)', this.logs)
+      if (config.mode.debug) {
+        console.log('-->> this.logs (5)', this.logs)
+      }
     },
     printChannels (message) {
       let payload = {}
@@ -334,9 +340,9 @@ export default {
         })
       }
 
-      console.log('-->> this.logs (1)', this.logs)
+      // console.log('-->> this.logs (1)', this.logs)
       this.logs = this.prependArray(payload, this.logs)
-      console.log('-->> this.logs (2)', this.logs)
+      // console.log('-->> this.logs (2)', this.logs)
     },
     /**
      * getAuth
@@ -345,15 +351,17 @@ export default {
      */
     getAuth () {
       let that = this
-      that.$log.debug('==> ACTION: getAuth')
+      if (config.mode.debug) {
+        that.$log.debug('==> ACTION: getAuth')
+      }
 
       return iAxios({
         method: 'POST',
         url: '/api/me',
         headers: { 'Content-Type': 'application/json' },
         data: {
-          email: 'bigoper.ha@gmail.com',
-          password: 'Bigoper@0!7'
+          email: config.pubnub.account.email,
+          password: config.pubnub.account.password
         }
       })
         .then(function (response) {
@@ -378,8 +386,9 @@ export default {
     getAccounts () {
       let that = this
       let myUrl = '/api/accounts?user_id=' + that.auth.id
-      this.$log.debug('==> ACTION: getAccounts')
-
+      if (config.mode.debug) {
+        this.$log.debug('==> ACTION: getAccounts')
+      }
       return iAxios({
         method: 'GET',
         url: myUrl,
@@ -387,7 +396,9 @@ export default {
       })
         .then(function (response) {
           that.content = response.data.result
-          that.$log.debug('==> that.content: ACCOUNTS', that.content)
+          if (config.mode.debug) {
+            that.$log.debug('==> that.content: ACCOUNTS', that.content)
+          }
           that.accounts = that.content.accounts
           // _.forEach(that.accounts, function (account) {
           //   that.accounts_new[account.id] = account
@@ -409,7 +420,9 @@ export default {
      */
     getAccountApps () {
       let that = this
-      that.$log.debug('==> ACTION: gatAccountApps')
+      if (config.mode.debug) {
+        that.$log.debug('==> ACTION: gatAccountApps')
+      }
       _.forEach(this.accounts, function (account) {
         let myUrl = '/api/apps?owner_id=' + account.id
 
@@ -498,7 +511,9 @@ export default {
      */
     getEventHanlders (value) {
       let that = this
-      that.$log.debug('==> ACTION: getEventHanlders')
+      if (config.mode.debug) {
+        that.$log.debug('==> ACTION: getEventHanlders')
+      }
       _.forEach(value, function (block) {
         let blockChannels = []
         _.forEach(block.event_handlers, function (eh) {
@@ -660,7 +675,9 @@ export default {
    */
   beforeCreated: function () {},
   created: function () {
-    this.$log.debug('Configurator -> created')
+    if (config.mode.debug) {
+      this.$log.debug('Configurator -> created')
+    }
   },
   beforeMount: function () {
     this.showAll()
